@@ -83,3 +83,15 @@ def register():
         msg = 'Please fill out the form!'
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
+
+
+@app.route('/login/profile')
+def profile():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # We need all the account info for the user so we can display it on the profile page
+         user = UserModel.query.filter_by(id=session['id']).first()
+        # Show the profile page with account info
+         return render_template('profile.html', user=user)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
